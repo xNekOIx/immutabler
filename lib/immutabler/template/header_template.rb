@@ -28,8 +28,9 @@ module Immutabler
             access_type = options[:readOnly] ? 'readonly' : 'readwrite'
             asterisk = prop[:is_ref] && !prop[:is_id] ? '*' : ''
             asterisk_and_prefix = "#{asterisk}#{prop[:name_prefix]}"
+            nullability = prop[:is_id] || prop[:is_ref] ? ", #{prop[:nullable] ? 'nullable' : 'nonnull'}" : ''
             memory_management = prop[:is_ref] ? prop[:ref_type] : 'assign';
-            prop_arguments = "@property(nonatomic, #{memory_management}, #{access_type})"
+            prop_arguments = "@property(nonatomic, #{memory_management}, #{access_type}#{nullability})"
             prop_field = "#{prop[:type]} #{asterisk_and_prefix}#{prop[:name]}"
             "#{prop_arguments} #{prop_field};"
           end.join("\n")

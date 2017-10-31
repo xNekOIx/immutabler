@@ -13,7 +13,7 @@
     NSInteger __modelVersion;
 }
 
-+ (instancetype)create:(void(^)({{name}}Builder *builder))builderBlock {
++ (nonnull instancetype)create:(nonnull void(^)({{name}}Builder * _Nonnull builder))builderBlock {
     {{name}}Builder *builder = [{{name}}Builder new];
     {{#props}}
     {{#if default}}
@@ -26,12 +26,14 @@
     return [[self alloc] initWithBuilder:builder modelVersion:1];
 }
 
-- (instancetype)init {
-    return [[self class] create:NULL];
+- (nonnull instancetype)init {
+    return [[self class] create:^({{name}}Builder * _Nonnull builder) {}];
 }
 
-- (instancetype)initWithBuilder:({{name}}Builder*)builder modelVersion:(NSInteger)modelVersion {
-    {{#init_with_builder .}}{{/init_with_builder}}
+- (nonnull instancetype)initWithBuilder:(nonnull {{name}}Builder*)builder modelVersion:(NSInteger)modelVersion {
+    {{#init_with_builder .}}
+    {{/init_with_builder}}
+
     if (self) {
         __modelVersion = modelVersion;
         {{#props}}
@@ -42,7 +44,7 @@
     return self;
 }
 
-- (instancetype)mutate:(void(^)({{name}}Builder *builder))builderBlock {
+- (nonnull instancetype)mutate:(nonnull void(^)({{name}}Builder * _Nonnull builder))builderBlock {
     {{name}}Builder *builder = [{{name}}Builder new];
 
     {{#props}}
@@ -55,7 +57,7 @@
 }
 
 {{#gen_equatable}}
-- (BOOL)isEqual:(id)other {
+- (BOOL)isEqual:(nullable id)other {
     if (other == self)
         return YES;
     if (!other || ![[other class] isEqual:[self class]])
@@ -64,7 +66,7 @@
     return [self isEqualToOther:other];
 }
 
-- (BOOL)isEqualToOther:({{name}} *)object {
+- (BOOL)isEqualToOther:(nullable {{name}} *)object {
     if (self == object)
         return YES;
     if (object == nil)
@@ -90,7 +92,7 @@
     return hash;
 }
 
-- (NSString *)description {
+- (nonnull NSString *)description {
     NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
     [description appendFormat:@"__modelVersion=%ld", (long)__modelVersion];
     {{#props}}
@@ -105,7 +107,7 @@
     return description;
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone {
+- (nonnull instancetype)copyWithZone:(nonnull NSZone *)zone {
     {{name}} *copy = [[[self class] allocWithZone:zone] init];
 
     if (copy != nil) {
@@ -126,8 +128,9 @@
 
 @implementation {{name}} (ImmutablerCoding)
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    {{#init_with_coder .}}{{/init_with_coder}}
+- (nonnull instancetype)initWithCoder:(nonnull NSCoder *)coder {
+    {{#init_with_coder .}}
+    {{/init_with_coder}}
     if (self) {
         {{#props}}
         {{#decodeProperty this}}{{/decodeProperty}}
@@ -138,7 +141,7 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder {
+- (void)encodeWithCoder:(nonnull NSCoder *)coder {
     {{#props}}
     {{#encodeProperty this}}{{/encodeProperty}}
     {{/props}}

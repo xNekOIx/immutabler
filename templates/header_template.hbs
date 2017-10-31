@@ -22,8 +22,8 @@
 {{/declare_props}}
 
 
-+ (instancetype)create:(void(^)({{name}}Builder *builder))builder;
-- (instancetype)mutate:(void(^)({{name}}Builder *builder))builder;
++ (nonnull instancetype)create:(nonnull void(^)({{name}}Builder * _Nonnull builder))builder;
+- (nonnull instancetype)mutate:(nonnull void(^)({{name}}Builder * _Nonnull builder))builder;
 
 
 {{/interface}}
