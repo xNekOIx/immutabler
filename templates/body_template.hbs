@@ -128,7 +128,7 @@
 
 @implementation {{name}} (ImmutablerCoding)
 
-- (nonnull instancetype)initWithCoder:(nonnull NSCoder *)coder {
+- (instancetype)initWithCoder:(nonnull NSCoder *)coder {
     {{#init_with_coder .}}
     {{/init_with_coder}}
     if (self) {
